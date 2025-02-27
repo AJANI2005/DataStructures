@@ -24,7 +24,8 @@
           the function to execute the program
 *************************************************************************************
 *************************************************************************************/
-class ProjectApp : public wxApp {
+class ProjectApp : public wxApp
+{
   virtual bool OnInit();
 };
 
@@ -34,7 +35,8 @@ class ProjectApp : public wxApp {
            also will ALL the events handlers be declared
 *************************************************************************************
 *************************************************************************************/
-class ProjectFrame : public wxFrame {
+class ProjectFrame : public wxFrame
+{
 private:
   DECLARE_EVENT_TABLE() // To declare events items
 
@@ -68,7 +70,8 @@ public:
 DECLARE_APP(ProjectApp)   // Declare Application class
 IMPLEMENT_APP(ProjectApp) // Create Application class object
 
-enum {
+enum
+{
   // File menu items
   ID_OpenFile = wxID_HIGHEST + 1, // File menu item
   ID_Display,
@@ -80,7 +83,27 @@ enum {
   ID_About,
 
   // ---etc. etc ---
-
+  ID_CreateQueue,
+  ID_DisplayAllQueue,
+  ID_ShowHeadQueue,
+  ID_ShowTailQueue,
+  ID_Dequeue,
+  ID_CreateDeque,
+  ID_DisplayAllDeque,
+  ID_ShowHeadDeque,
+  ID_ShowTailDeque,
+  ID_DequeueHeadDeque,
+  ID_DequeueTailDeque,
+  ID_CreatePQueue,
+  ID_DisplayAllPQueue,
+  ID_ShowHeadPQueue,
+  ID_ShowTailPQueue,
+  ID_DequeuePQueue,
+  ID_CreateStack,
+  ID_PopStack,
+  ID_DisplayAllStack,
+  ID_ShowHeadStack,
+  ID_ShowTailStack
 };
 
 BEGIN_EVENT_TABLE(ProjectFrame, wxFrame)
@@ -90,7 +113,6 @@ EVT_MENU(ID_Display, ProjectFrame::OnDisplay)
 EVT_MENU(ID_Save, ProjectFrame::OnSave)
 EVT_MENU(ID_SaveAs, ProjectFrame::OnSaveAs)
 EVT_MENU(ID_Exit, ProjectFrame::OnExit)
-
 // ---etc. etc ---
 
 END_EVENT_TABLE()
@@ -100,10 +122,10 @@ END_EVENT_TABLE()
   Step 5.  Define the Application class function to initialize the application
 *************************************************************************************
 *************************************************************************************/
-bool ProjectApp::OnInit() {
+bool ProjectApp::OnInit()
+{
   // Create the main application window
-  ProjectFrame *frame = new ProjectFrame(wxT("COMP2611 - Data Structures"),
-                                         wxPoint(50, 50), wxSize(840, 600));
+  ProjectFrame *frame = new ProjectFrame(wxT("COMP2611 - Data Structures"), wxPoint(50, 50), wxSize(840, 600));
 
   // Display the window
   frame->Show(TRUE);
@@ -118,34 +140,72 @@ bool ProjectApp::OnInit() {
   Step 6:   Define the Constructor functions for the Frame class
 *************************************************************************************
 *************************************************************************************/
-ProjectFrame::ProjectFrame(const wxString &title, const wxPoint &pos,
-                           const wxSize &size)
-    : wxFrame((wxFrame *)NULL, -1, title, pos, size) {
+ProjectFrame::ProjectFrame(const wxString &title, const wxPoint &pos, const wxSize &size)
+    : wxFrame((wxFrame *)NULL, -1, title, pos, size)
+{
   // Set the frame icon - optional
-  SetIcon(wxIcon(wxT("Icon.xpm")));
+  /*SetIcon(wxIcon(wxT("Icon.xpm")));*/
 
   // Create the main-menu items
-  wxMenu *menuFile = new wxMenu;
-  wxMenu *menuHelp = new wxMenu;
-
-  // Add the main menu pointer for the Deque
-  wxMenu *menuDeque = new wxMenu;
 
   // Create a Main menu bar
   wxMenuBar *menuBar = new wxMenuBar;
 
+  // Create menus
+  wxMenu *menuFile = new wxMenu;
+  wxMenu *menuHelp = new wxMenu;
+
+  // Add the main menu pointer for the Queue
+  wxMenu *menuQueue = new wxMenu;
+  // Add the main menu pointer for the Deque
+  wxMenu *menuDeque = new wxMenu;
+  // Add the main menu pointer for the PQueue
+  wxMenu *menuPQueue = new wxMenu;
+  // Add the main menu pointer for the Stack
+  wxMenu *menuStack = new wxMenu;
+
+  // Append the menu items for the adts
+  menuQueue->Append(ID_CreateQueue, wxT("Create Queue"), wxT("Create a queue"));
+  menuQueue->Append(ID_DisplayAllQueue, wxT("Display All"), wxT("Display all elements in the queue"));
+  menuQueue->Append(ID_ShowHeadQueue, wxT("Show Head"), wxT("Show the front element of the queue"));
+  menuQueue->Append(ID_ShowTailQueue, wxT("Show Tail"), wxT("Show the rear element of the queue"));
+  menuQueue->Append(ID_Dequeue, wxT("Dequeue"), wxT("Remove the front element from the queue"));
+
+  menuDeque->Append(ID_CreateDeque, wxT("Create Deque"), wxT("Create a deque"));
+  menuDeque->Append(ID_DisplayAllDeque, wxT("Display All"), wxT("Display all elements in the deque"));
+  menuDeque->Append(ID_ShowHeadDeque, wxT("Show Head"), wxT("Show the front element of the deque"));
+  menuDeque->Append(ID_ShowTailDeque, wxT("Show Tail"), wxT("Show the rear element of the deque"));
+  menuDeque->Append(ID_DequeueHeadDeque, wxT("Dequeue Head"), wxT("Remove the front element from the deque"));
+  menuDeque->Append(ID_DequeueTailDeque, wxT("Dequeue Tail"), wxT("Remove the rear element from the deque"));
+
+  menuPQueue->Append(ID_CreatePQueue, wxT("Create PQ"), wxT("Create a priority queue"));
+  menuPQueue->Append(ID_DisplayAllPQueue, wxT("Display All"), wxT("Display all elements in the priority queue"));
+  menuPQueue->Append(ID_ShowHeadPQueue, wxT("Show Head"), wxT("Show the highest-priority element in the priority queue"));
+  menuPQueue->Append(ID_ShowTailPQueue, wxT("Show Tail"), wxT("Show the lowest-priority element in the priority queue"));
+  menuPQueue->Append(ID_DequeuePQueue, wxT("Dequeue"), wxT("Remove the highest-priority element from the priority queue"));
+
+  menuStack->Append(ID_CreateStack, wxT("Create Stack"), wxT("Create a stack"));
+  menuStack->Append(ID_PopStack, wxT("Pop"), wxT("Remove and display the top element from the stack"));
+  menuStack->Append(ID_DisplayAllStack, wxT("Display All"), wxT("Display all elements in the stack"));
+  menuStack->Append(ID_ShowHeadStack, wxT("Show Head"), wxT("Show the top element of the stack"));
+  menuStack->Append(ID_ShowTailStack, wxT("Show Tail"), wxT("Show the bottom element of the stack"));
+
   // Append the main menu items to the Menu Bar
   menuBar->Append(menuFile, wxT("File"));
-  menuBar->Append(menuHelp, wxT("Help"));
 
+  // Append the abstract data types to the Menu Bar
+  menuBar->Append(menuQueue, wxT("Queue"));
+  menuBar->Append(menuDeque, wxT("Deque"));
+  menuBar->Append(menuPQueue, wxT("Priority Queue"));
+  menuBar->Append(menuStack, wxT("Stack"));
+
+  menuBar->Append(menuHelp, wxT("Help"));
+  // Create sub menus for adts
   // Append the sub-menu items to the File Main Menu item
-  menuFile->Append(ID_OpenFile, wxT("&Open File..."),
-                   wxT("Open an Existing file"));
-  menuFile->Append(ID_Display, wxT("&Display File..."),
-                   wxT("Display contents of opened file"));
+  menuFile->Append(ID_OpenFile, wxT("&Open File..."), wxT("Open an Existing file"));
+  menuFile->Append(ID_Display, wxT("&Display File..."), wxT("Display contents of opened file"));
   menuFile->Append(ID_Save, wxT("&Save"), wxT("Save opened file"));
-  menuFile->Append(ID_SaveAs, wxT("Save &As..."),
-                   wxT("Save display as a new file"));
+  menuFile->Append(ID_SaveAs, wxT("Save &As..."), wxT("Save display as a new file"));
   menuFile->Append(ID_Exit, wxT("E&xit"), wxT("Close and EXIT Program"));
 
   // Append the sub-menu items to the Help Main Menu item
@@ -162,36 +222,31 @@ ProjectFrame::ProjectFrame(const wxString &title, const wxPoint &pos,
   SetStatusText(wxT("Ready..."));
 
   // Put something in the Second section of the status bar
-  SetStatusText(wxT("    Wiley Coyote, Genius"), 1);
+  SetStatusText(wxT("    Ajani Small"), 1);
 
   // Put something in the Third section of the status bar
-  SetStatusText(wxT("    123456789"), 2);
+  SetStatusText(wxT("    400017967"), 2);
 
   // Set up the panel for data display
+  //
   //=========================================================================================
   //=========================== DO NOT CHANGE THE CODE IN THIS SECTION
   //======================
   //=========================================================================================
 
   wxPanel *panel = new wxPanel(this, -1);
-  wxBoxSizer *vbox =
-      new wxBoxSizer(wxVERTICAL); // Vertical sizer for main window
-  wxBoxSizer *hbox1 =
-      new wxBoxSizer(wxHORIZONTAL); // Horizontal sizer for main window
+  wxBoxSizer *vbox = new wxBoxSizer(wxVERTICAL);    // Vertical sizer for main window
+  wxBoxSizer *hbox1 = new wxBoxSizer(wxHORIZONTAL); // Horizontal sizer for main window
 
   // Add two textboxes to the panel for data display
-  wxBoxSizer *hbox2 =
-      new wxBoxSizer(wxHORIZONTAL); // Horizontal sizer for filename window
-  wxBoxSizer *hbox3 =
-      new wxBoxSizer(wxHORIZONTAL); // Horizontal sizer for display window
+  wxBoxSizer *hbox2 = new wxBoxSizer(wxHORIZONTAL); // Horizontal sizer for filename window
+  wxBoxSizer *hbox3 = new wxBoxSizer(wxHORIZONTAL); // Horizontal sizer for display window
 
   wxStaticText *fileLabel = new wxStaticText(panel, wxID_ANY, wxT("File Name"));
-  wxStaticText *displayLabel =
-      new wxStaticText(panel, wxID_ANY, wxT("Display"));
+  wxStaticText *displayLabel = new wxStaticText(panel, wxID_ANY, wxT("Display"));
 
   // Initialize the filename textbox window
-  filenameTextBox =
-      new wxTextCtrl(panel, wxID_ANY, wxT("No File Opened Yet..."));
+  filenameTextBox = new wxTextCtrl(panel, wxID_ANY, wxT("No File Opened Yet..."));
 
   // Initialize the display window
   MainEditBox = new wxTextCtrl(panel, wxID_ANY, wxT("No Data Available Yet..."),
@@ -228,7 +283,8 @@ ProjectFrame::ProjectFrame(const wxString &title, const wxPoint &pos,
 //=====================================
 //===================================================================================
 
-void ProjectFrame::OnOpenFile(wxCommandEvent &event) {
+void ProjectFrame::OnOpenFile(wxCommandEvent &event)
+{
   // Creates a "open file" dialog with 3 file types
   wxFileDialog *OpenDialog = new wxFileDialog(
       this, (wxT("Choose a file to open")), wxEmptyString, wxEmptyString,
@@ -249,16 +305,18 @@ void ProjectFrame::OnOpenFile(wxCommandEvent &event) {
     MainEditBox->LoadFile(CurrentDocPath); // Opens that file in the MainEditBox
 
     // Set the Title
-    SetTitle(wxString(wxT("COMP2611 - Data Structures : 123456789")));
+    SetTitle(wxString(wxT("COMP2611 - Data Structures Project #1")));
   }
 }
 
-void ProjectFrame::OnSave(wxCommandEvent &event) {
+void ProjectFrame::OnSave(wxCommandEvent &event)
+{
   // Save to the already-set path for the document
   MainEditBox->SaveFile(CurrentDocPath);
 }
 
-void ProjectFrame::OnSaveAs(wxCommandEvent &event) {
+void ProjectFrame::OnSaveAs(wxCommandEvent &event)
+{
   wxFileDialog *SaveDialog = new wxFileDialog(
       this, (wxT("Save File As...?")), wxEmptyString, wxEmptyString,
       (wxT("Data Files (*.dat)|*.dat|Text files (*.txt)|*.txt|")),
@@ -278,7 +336,8 @@ void ProjectFrame::OnSaveAs(wxCommandEvent &event) {
   }
 }
 
-void ProjectFrame::OnDisplay(wxCommandEvent &event) {
+void ProjectFrame::OnDisplay(wxCommandEvent &event)
+{
   // Creates a "open file" dialog with 4 file types
   wxFileDialog *OpenDialog = new wxFileDialog(
       this, (wxT("Choose a file to open")), wxEmptyString, wxEmptyString,
@@ -291,12 +350,14 @@ void ProjectFrame::OnDisplay(wxCommandEvent &event) {
   MainEditBox->LoadFile(CurrentDocPath);
 }
 
-void ProjectFrame::OnExit(wxCommandEvent &event) {
+void ProjectFrame::OnExit(wxCommandEvent &event)
+{
   wxMessageBox(wxT("Good-bye!"), wxT("Exit"), wxOK | wxICON_INFORMATION, this);
   Close(TRUE); // Close the window
 }
 
-void ProjectFrame::OnAbout(wxCommandEvent &event) {
+void ProjectFrame::OnAbout(wxCommandEvent &event)
+{
   wxMessageBox(wxT("   Data Structures\n wxWidgets Exercise\n\tVersion 1.0"),
                wxT("About..."), wxOK | wxICON_INFORMATION, this);
 }

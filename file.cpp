@@ -4,9 +4,11 @@
 #include <string>
 using namespace std;
 
-int main() {
+int main()
+{
   ifstream infile("Catalog.txt");
-  if (!infile.is_open()) {
+  if (!infile.is_open())
+  {
     cerr << "Error opening file" << endl;
     return 1;
   }
@@ -16,7 +18,8 @@ int main() {
   char asterisk;
   // read off the first line
   getline(infile, heading, '\n');
-  cout << "The heading line: \n\n" << heading << endl;
+  cout << "The heading line: \n\n"
+       << heading << endl;
 
   // read in the first record
   getline(infile, month, '*');

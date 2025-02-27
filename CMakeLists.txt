@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.10)
 project(wxWidgetsApp)
 
+# Enable compilation database for LSP
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 # Find wxWidgets
 find_package(wxWidgets REQUIRED COMPONENTS core base)
 

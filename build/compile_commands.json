@@ -1,0 +1,8 @@
+[
+{
+  "directory": "/home/ajani/Desktop/DSA_Project1/build",
+  "command": "/usr/bin/c++ -DWXUSINGDLL -D_FILE_OFFSET_BITS=64 -D__WXGTK__ -isystem /usr/lib64/wx/include/gtk2-unicode-3.1 -isystem /usr/include/wx-3.1  -pthread -o CMakeFiles/wxApp.dir/main.cpp.o -c /home/ajani/Desktop/DSA_Project1/main.cpp",
+  "file": "/home/ajani/Desktop/DSA_Project1/main.cpp",
+  "output": "CMakeFiles/wxApp.dir/main.cpp.o"
+}
+]
