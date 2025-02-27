@@ -3,8 +3,8 @@
 // Date: 2/26/2025
 // Description: Deque class for a node (Node.h)
 
-#ifndef QUEUE_H
-#define QUEUE_H
+#ifndef DEQUE_H
+#define DEQUE_H
 #include "Node.h"
 class Deque {
 private:
