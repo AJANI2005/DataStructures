@@ -18,6 +18,22 @@
 #include <wx/wx.h>
 #endif
 
+// include  additional header files
+#include <fstream>
+#include <iostream>
+#include <string>
+using namespace std;
+#include "Deque.h"
+#include "PQueue.h"
+#include "Queue.h"
+#include "Stack.h"
+
+// Define global data structures
+Queue *queue = new Queue();
+Stack *stack = new Stack();
+PQueue *pqueue = new PQueue();
+Deque *deque = new Deque();
+
 /************************************************************************************
 *************************************************************************************
   Step 2: Name an inherited application class from wxApp and declare it with
@@ -54,6 +70,30 @@ public:
   void OnAbout(wxCommandEvent &event);
 
   // ---etc. etc ---
+  void OnCreate_Queue(wxCommandEvent &event);
+  void OnDisplayAll_Queue(wxCommandEvent &event);
+  void OnShowHead_Queue(wxCommandEvent &event);
+  void OnShowTail_Queue(wxCommandEvent &event);
+  void OnDequeue_Queue(wxCommandEvent &event);
+
+  void OnCreate_Deque(wxCommandEvent &event);
+  void OnDisplayAll_Deque(wxCommandEvent &event);
+  void OnShowHead_Deque(wxCommandEvent &event);
+  void OnShowTail_Deque(wxCommandEvent &event);
+  void OnDequeueHead_Deque(wxCommandEvent &event);
+  void OnDequeueTail_Deque(wxCommandEvent &event);
+
+  void OnCreate_PQueue(wxCommandEvent &event);
+  void OnDisplayAll_PQueue(wxCommandEvent &event);
+  void OnShowHead_PQueue(wxCommandEvent &event);
+  void OnShowTail_PQueue(wxCommandEvent &event);
+  void OnDequeue_PQueue(wxCommandEvent &event);
+
+  void OnCreate_Stack(wxCommandEvent &event);
+  void OnPop_Stack(wxCommandEvent &event);
+  void OnDisplayAll_Stack(wxCommandEvent &event);
+  void OnShowHead_Stack(wxCommandEvent &event);
+  void OnShowTail_Stack(wxCommandEvent &event);
 
   // Public attributes
   wxTextCtrl *MainEditBox;
@@ -83,27 +123,30 @@ enum
   ID_About,
 
   // ---etc. etc ---
-  ID_CreateQueue,
-  ID_DisplayAllQueue,
-  ID_ShowHeadQueue,
-  ID_ShowTailQueue,
-  ID_Dequeue,
-  ID_CreateDeque,
-  ID_DisplayAllDeque,
-  ID_ShowHeadDeque,
-  ID_ShowTailDeque,
-  ID_DequeueHeadDeque,
-  ID_DequeueTailDeque,
-  ID_CreatePQueue,
-  ID_DisplayAllPQueue,
-  ID_ShowHeadPQueue,
-  ID_ShowTailPQueue,
-  ID_DequeuePQueue,
-  ID_CreateStack,
-  ID_PopStack,
-  ID_DisplayAllStack,
-  ID_ShowHeadStack,
-  ID_ShowTailStack
+  ID_Create_Queue,
+  ID_DisplayAll_Queue,
+  ID_ShowHead_Queue,
+  ID_ShowTail_Queue,
+  ID_Dequeue_Queue,
+
+  ID_Create_Deque,
+  ID_DisplayAll_Deque,
+  ID_ShowHead_Deque,
+  ID_ShowTail_Deque,
+  ID_DequeueHead_Deque,
+  ID_DequeueTail_Deque,
+
+  ID_Create_PQueue,
+  ID_DisplayAll_PQueue,
+  ID_ShowHead_PQueue,
+  ID_ShowTail_PQueue,
+  ID_Dequeue_PQueue,
+
+  ID_Create_Stack,
+  ID_Pop_Stack,
+  ID_DisplayAll_Stack,
+  ID_ShowHead_Stack,
+  ID_ShowTail_Stack,
 };
 
 BEGIN_EVENT_TABLE(ProjectFrame, wxFrame)
@@ -113,8 +156,36 @@ EVT_MENU(ID_Display, ProjectFrame::OnDisplay)
 EVT_MENU(ID_Save, ProjectFrame::OnSave)
 EVT_MENU(ID_SaveAs, ProjectFrame::OnSaveAs)
 EVT_MENU(ID_Exit, ProjectFrame::OnExit)
-// ---etc. etc ---
 
+// ---etc. etc ---
+// Events for Queue menu items
+EVT_MENU(ID_Create_Queue, ProjectFrame::OnCreate_Queue)
+EVT_MENU(ID_DisplayAll_Queue, ProjectFrame::OnDisplayAll_Queue)
+EVT_MENU(ID_ShowHead_Queue, ProjectFrame::OnShowHead_Queue)
+EVT_MENU(ID_ShowTail_Queue, ProjectFrame::OnShowTail_Queue)
+EVT_MENU(ID_Dequeue_Queue, ProjectFrame::OnDequeue_Queue)
+
+// Events for Deque menu items
+EVT_MENU(ID_Create_Deque, ProjectFrame::OnCreate_Deque)
+EVT_MENU(ID_DisplayAll_Deque, ProjectFrame::OnDisplayAll_Deque)
+EVT_MENU(ID_ShowHead_Deque, ProjectFrame::OnShowHead_Deque)
+EVT_MENU(ID_ShowTail_Deque, ProjectFrame::OnShowTail_Deque)
+EVT_MENU(ID_DequeueHead_Deque, ProjectFrame::OnDequeueHead_Deque)
+EVT_MENU(ID_DequeueTail_Deque, ProjectFrame::OnDequeueTail_Deque)
+
+// Events for Priority Queue menu items
+EVT_MENU(ID_Create_PQueue, ProjectFrame::OnCreate_PQueue)
+EVT_MENU(ID_DisplayAll_PQueue, ProjectFrame::OnDisplayAll_PQueue)
+EVT_MENU(ID_ShowHead_PQueue, ProjectFrame::OnShowHead_PQueue)
+EVT_MENU(ID_ShowTail_PQueue, ProjectFrame::OnShowTail_PQueue)
+EVT_MENU(ID_Dequeue_PQueue, ProjectFrame::OnDequeue_PQueue)
+
+// Events for Stack menu items
+EVT_MENU(ID_Create_Stack, ProjectFrame::OnCreate_Stack)
+EVT_MENU(ID_Pop_Stack, ProjectFrame::OnPop_Stack)
+EVT_MENU(ID_DisplayAll_Stack, ProjectFrame::OnDisplayAll_Stack)
+EVT_MENU(ID_ShowHead_Stack, ProjectFrame::OnShowHead_Stack)
+EVT_MENU(ID_ShowTail_Stack, ProjectFrame::OnShowTail_Stack)
 END_EVENT_TABLE()
 
 /************************************************************************************
@@ -133,6 +204,118 @@ bool ProjectApp::OnInit()
   SetTopWindow(frame);
 
   return TRUE;
+}
+
+void ProjectFrame::OnCreate_Queue(wxCommandEvent &event)
+{
+  ifstream infile("/home/ajani/Desktop/DSA_Project1/Catalog.txt");
+  if (!infile.is_open())
+  {
+    wxLogMessage("Error: Could not open file");
+    return;
+  }
+  // Month*Year*Artist(s)*Single*Record-label*Weeks-at-number-one
+  string month, artist, title, recordLabel, heading;
+  int year, weeks;
+  char asterisk;
+  getline(infile, heading, '\n');
+
+  while (!infile.eof())
+  {
+    getline(infile, month, '*');
+    infile >> year;
+    infile >> asterisk;
+    getline(infile, artist, '*');
+    getline(infile, title, '*');
+    getline(infile, recordLabel, '*');
+    infile >> weeks;
+    queue->enqueue(Node(month, year, artist, title, recordLabel, weeks));
+  }
+  wxLogMessage("Queue Created");
+  infile.close();
+}
+
+void ProjectFrame::OnDisplayAll_Queue(wxCommandEvent &event)
+{
+  wxString allRecords = queue->displayAll();
+  MainEditBox->Clear();
+  MainEditBox->AppendText(wxString(allRecords));
+}
+
+void ProjectFrame::OnShowHead_Queue(wxCommandEvent &event)
+{
+}
+
+void ProjectFrame::OnShowTail_Queue(wxCommandEvent &event)
+{
+}
+
+void ProjectFrame::OnDequeue_Queue(wxCommandEvent &event)
+{
+}
+
+void ProjectFrame::OnCreate_Deque(wxCommandEvent &event)
+{
+}
+
+void ProjectFrame::OnDisplayAll_Deque(wxCommandEvent &event)
+{
+}
+
+void ProjectFrame::OnShowHead_Deque(wxCommandEvent &event)
+{
+}
+
+void ProjectFrame::OnShowTail_Deque(wxCommandEvent &event)
+{
+}
+
+void ProjectFrame::OnDequeueHead_Deque(wxCommandEvent &event)
+{
+}
+
+void ProjectFrame::OnDequeueTail_Deque(wxCommandEvent &event)
+{
+}
+
+void ProjectFrame::OnCreate_PQueue(wxCommandEvent &event)
+{
+}
+
+void ProjectFrame::OnDisplayAll_PQueue(wxCommandEvent &event)
+{
+}
+
+void ProjectFrame::OnShowHead_PQueue(wxCommandEvent &event)
+{
+}
+
+void ProjectFrame::OnShowTail_PQueue(wxCommandEvent &event)
+{
+}
+
+void ProjectFrame::OnDequeue_PQueue(wxCommandEvent &event)
+{
+}
+
+void ProjectFrame::OnCreate_Stack(wxCommandEvent &event)
+{
+}
+
+void ProjectFrame::OnPop_Stack(wxCommandEvent &event)
+{
+}
+
+void ProjectFrame::OnDisplayAll_Stack(wxCommandEvent &event)
+{
+}
+
+void ProjectFrame::OnShowHead_Stack(wxCommandEvent &event)
+{
+}
+
+void ProjectFrame::OnShowTail_Stack(wxCommandEvent &event)
+{
 }
 
 /************************************************************************************
@@ -165,30 +348,30 @@ ProjectFrame::ProjectFrame(const wxString &title, const wxPoint &pos, const wxSi
   wxMenu *menuStack = new wxMenu;
 
   // Append the menu items for the adts
-  menuQueue->Append(ID_CreateQueue, wxT("Create Queue"), wxT("Create a queue"));
-  menuQueue->Append(ID_DisplayAllQueue, wxT("Display All"), wxT("Display all elements in the queue"));
-  menuQueue->Append(ID_ShowHeadQueue, wxT("Show Head"), wxT("Show the front element of the queue"));
-  menuQueue->Append(ID_ShowTailQueue, wxT("Show Tail"), wxT("Show the rear element of the queue"));
-  menuQueue->Append(ID_Dequeue, wxT("Dequeue"), wxT("Remove the front element from the queue"));
+  menuQueue->Append(ID_Create_Queue, wxT("Create Queue"), wxT("Create a queue"));
+  menuQueue->Append(ID_DisplayAll_Queue, wxT("Display All"), wxT("Display all elements in the queue"));
+  menuQueue->Append(ID_ShowHead_Queue, wxT("Show Head"), wxT("Show the front element of the queue"));
+  menuQueue->Append(ID_ShowTail_Queue, wxT("Show Tail"), wxT("Show the rear element of the queue"));
+  menuQueue->Append(ID_Dequeue_Queue, wxT("Dequeue"), wxT("Remove the front element from the queue"));
 
-  menuDeque->Append(ID_CreateDeque, wxT("Create Deque"), wxT("Create a deque"));
-  menuDeque->Append(ID_DisplayAllDeque, wxT("Display All"), wxT("Display all elements in the deque"));
-  menuDeque->Append(ID_ShowHeadDeque, wxT("Show Head"), wxT("Show the front element of the deque"));
-  menuDeque->Append(ID_ShowTailDeque, wxT("Show Tail"), wxT("Show the rear element of the deque"));
-  menuDeque->Append(ID_DequeueHeadDeque, wxT("Dequeue Head"), wxT("Remove the front element from the deque"));
-  menuDeque->Append(ID_DequeueTailDeque, wxT("Dequeue Tail"), wxT("Remove the rear element from the deque"));
+  menuDeque->Append(ID_Create_Deque, wxT("Create Deque"), wxT("Create a deque"));
+  menuDeque->Append(ID_DisplayAll_Deque, wxT("Display All"), wxT("Display all elements in the deque"));
+  menuDeque->Append(ID_ShowHead_Deque, wxT("Show Head"), wxT("Show the front element of the deque"));
+  menuDeque->Append(ID_ShowTail_Deque, wxT("Show Tail"), wxT("Show the rear element of the deque"));
+  menuDeque->Append(ID_DequeueHead_Deque, wxT("Dequeue Head"), wxT("Remove the front element from the deque"));
+  menuDeque->Append(ID_DequeueTail_Deque, wxT("Dequeue Tail"), wxT("Remove the rear element from the deque"));
 
-  menuPQueue->Append(ID_CreatePQueue, wxT("Create PQ"), wxT("Create a priority queue"));
-  menuPQueue->Append(ID_DisplayAllPQueue, wxT("Display All"), wxT("Display all elements in the priority queue"));
-  menuPQueue->Append(ID_ShowHeadPQueue, wxT("Show Head"), wxT("Show the highest-priority element in the priority queue"));
-  menuPQueue->Append(ID_ShowTailPQueue, wxT("Show Tail"), wxT("Show the lowest-priority element in the priority queue"));
-  menuPQueue->Append(ID_DequeuePQueue, wxT("Dequeue"), wxT("Remove the highest-priority element from the priority queue"));
+  menuPQueue->Append(ID_Create_PQueue, wxT("Create PQ"), wxT("Create a priority queue"));
+  menuPQueue->Append(ID_DisplayAll_PQueue, wxT("Display All"), wxT("Display all elements in the priority queue"));
+  menuPQueue->Append(ID_ShowHead_PQueue, wxT("Show Head"), wxT("Show the highest-priority element in the priority queue"));
+  menuPQueue->Append(ID_ShowTail_PQueue, wxT("Show Tail"), wxT("Show the lowest-priority element in the priority queue"));
+  menuPQueue->Append(ID_Dequeue_PQueue, wxT("Dequeue"), wxT("Remove the highest-priority element from the priority queue"));
 
-  menuStack->Append(ID_CreateStack, wxT("Create Stack"), wxT("Create a stack"));
-  menuStack->Append(ID_PopStack, wxT("Pop"), wxT("Remove and display the top element from the stack"));
-  menuStack->Append(ID_DisplayAllStack, wxT("Display All"), wxT("Display all elements in the stack"));
-  menuStack->Append(ID_ShowHeadStack, wxT("Show Head"), wxT("Show the top element of the stack"));
-  menuStack->Append(ID_ShowTailStack, wxT("Show Tail"), wxT("Show the bottom element of the stack"));
+  menuStack->Append(ID_Create_Stack, wxT("Create Stack"), wxT("Create a stack"));
+  menuStack->Append(ID_Pop_Stack, wxT("Pop"), wxT("Remove and display the top element from the stack"));
+  menuStack->Append(ID_DisplayAll_Stack, wxT("Display All"), wxT("Display all elements in the stack"));
+  menuStack->Append(ID_ShowHead_Stack, wxT("Show Head"), wxT("Show the top element of the stack"));
+  menuStack->Append(ID_ShowTail_Stack, wxT("Show Tail"), wxT("Show the bottom element of the stack"));
 
   // Append the main menu items to the Menu Bar
   menuBar->Append(menuFile, wxT("File"));
@@ -305,7 +488,7 @@ void ProjectFrame::OnOpenFile(wxCommandEvent &event)
     MainEditBox->LoadFile(CurrentDocPath); // Opens that file in the MainEditBox
 
     // Set the Title
-    SetTitle(wxString(wxT("COMP2611 - Data Structures Project #1")));
+    SetTitle(wxString(wxT("COMP2611 - Data Structures : 123456789")));
   }
 }
 

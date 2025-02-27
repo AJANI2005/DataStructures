@@ -6,7 +6,8 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 #include "Node.h"
-class Queue {
+class Queue
+{
 private:
   Node *head;
   Node *tail;
@@ -17,39 +18,50 @@ public:
   void enqueue(Node node);
   string dequeue();
   bool isEmpty() { return count == 0; }
-  string toString();
+  string displayAll();
   int size() { return count; }
+  Node *front() { return head; }
+  Node *back() { return tail; }
 };
 
-Queue::Queue() {
+Queue::Queue()
+{
   head = tail = NULL;
   count = 0;
 }
-void Queue::enqueue(Node node) {
-  // case 1 : empty queue
+void Queue::enqueue(Node node)
+{
   Node *newNode = new Node(node);
-  if (isEmpty()) {
+  if (isEmpty())
+  {
     head = tail = newNode;
-  } else {
-    // add to tail
+  }
+  else
+  {
     tail->setNext(newNode);
     tail = newNode;
   }
-  count += 1; // update count
+  count += 1;
 }
 
-string Queue::dequeue() {
-  if (isEmpty()) {
+string Queue::dequeue()
+{
+  if (isEmpty())
+  {
     // case 1 : empty queue
     return "Error: Attempt to dequeue from empty queue";
-  } else if (head == tail) {
+  }
+  else if (head == tail)
+  {
     // case 2 : one node in queue
     string record = head->getRecord();
     delete head;
     head = tail = NULL;
     count -= 1; // update count
     return record;
-  } else {
+  }
+  else
+  {
     // case 3 : more than one node in queue
     string record = head->getRecord();
     Node *temp = head;
@@ -60,22 +72,18 @@ string Queue::dequeue() {
   }
 }
 
-string Queue::toString() {
-  if (isEmpty()) {
+string Queue::displayAll()
+{
+  if (isEmpty())
+  {
     return "Empty Queue";
   }
   Node *curr = head;
   string out = "";
-  while (curr != NULL) {
-    if (curr == head) {
-      out.append(" [Head] -> ");
-    }
+  while (curr != NULL)
+  {
     out.append(curr->getRecord());
-    if (curr == tail) {
-      out.append(" <- [Tail] ");
-    } else {
-      out.append(" -> ");
-    }
+    out.append("\n");
     curr = curr->getNext();
   }
   return out;

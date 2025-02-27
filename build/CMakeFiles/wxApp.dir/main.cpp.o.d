@@ -305,4 +305,13 @@ CMakeFiles/wxApp.dir/main.cpp.o: \
  /usr/include/wx-3.1/wx/valtext.h /usr/include/wx-3.1/wx/filedlg.h \
  /usr/include/wx-3.1/wx/gtk/filedlg.h \
  /usr/include/wx-3.1/wx/gtk/filectrl.h /usr/include/wx-3.1/wx/filectrl.h \
- /usr/include/wx-3.1/wx/mdi.h /usr/include/wx-3.1/wx/gtk/mdi.h
+ /usr/include/wx-3.1/wx/mdi.h /usr/include/wx-3.1/wx/gtk/mdi.h \
+ /usr/include/c++/7/fstream /usr/include/c++/7/bits/codecvt.h \
+ /usr/include/c++/7/x86_64-suse-linux/bits/basic_file.h \
+ /usr/include/c++/7/x86_64-suse-linux/bits/c++io.h \
+ /usr/include/c++/7/bits/fstream.tcc \
+ /home/ajani/Desktop/DSA_Project1/Deque.h \
+ /home/ajani/Desktop/DSA_Project1/Node.h \
+ /home/ajani/Desktop/DSA_Project1/PQueue.h \
+ /home/ajani/Desktop/DSA_Project1/Queue.h \
+ /home/ajani/Desktop/DSA_Project1/Stack.h

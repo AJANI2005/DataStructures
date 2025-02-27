@@ -6,9 +6,11 @@
 #ifndef STACK_H
 #define STACK_H
 #include "Node.h"
-class Stack {
+class Stack
+{
 private:
-  Node *top;
+  Node *head;
+  Node *tail;
   int count;
 
 public:
@@ -18,59 +20,70 @@ public:
   bool isEmpty() { return count == 0; }
   string toString();
   int size() { return count; }
+  Node *front() { return head; }
+  Node *back() { return tail; }
 };
 
-Stack::Stack() {
-  top = NULL;
+Stack::Stack()
+{
+  head = tail = NULL;
   count = 0;
 }
-void Stack::push(Node node) {
-  // case 1 : empty stack
+void Stack::push(Node node)
+{
   Node *newNode = new Node(node);
-  if (isEmpty()) {
-    top = newNode;
-  } else {
-    // add to top
-    newNode->setNext(top);
-    top = newNode;
+  if (isEmpty())
+  {
+    head = tail = newNode;
   }
-  count += 1; // update count
+  else
+  {
+    newNode->setNext(head);
+    head = newNode;
+  }
+  count += 1;
 }
 
-string Stack::pop() {
-  if (isEmpty()) {
+string Stack::pop()
+{ // remove from head
+  if (isEmpty())
+  {
     // case 1 : empty stack
     return "Error: Attempt to removeFirst from empty stack";
-  } else if (size() == 1) {
+  }
+  else if (head == tail)
+  {
     // case 2 : one node in stack
-    string record = top->getRecord();
-    delete top;
-    top = NULL;
+    string record = head->getRecord();
+    delete head;
+    head = tail = NULL;
     count -= 1; // update count
     return record;
-  } else {
+  }
+  else
+  {
     // case 3 : more than one node in stack
-    string record = top->getRecord();
-    Node *temp = top;
-    top = top->getNext();
+    string record = head->getRecord();
+    Node *temp = head;
+    head = head->getNext();
     delete temp;
     count -= 1; // update count
     return record;
   }
 }
 
-string Stack::toString() {
-  if (isEmpty()) {
+string Stack::toString()
+{
+  if (isEmpty())
+  {
     return "Empty Stack";
   }
-  Node *curr = top;
+  Node *curr = head;
   string out = "";
-  while (curr != NULL) {
-    if (curr == top) {
-      out.append(" [Top] -> ");
-    }
+  while (curr != NULL)
+  {
     out.append(curr->getRecord());
-    out.append(" -> ");
+    out.append("\n");
     curr = curr->getNext();
   }
   return out;
