@@ -56,14 +56,19 @@ inline Node::Node(string monthName, int yearNum, string artistName,
 }
 inline string Node::getRecord() {
   string out = "";
-  /*out += "Month: " + month + "\n";*/
-  /*out += "Year: " + to_string(year) + "\n";*/
-  /*out += "Artist: " + artist + "\n";*/
-  /*out += "Title: " + title + "\n";*/
-  /*out += "Record Label: " + recordLabel + "\n";*/
-  /*out += "Weeks at Number One: " + to_string(weeksAtNumberOne) + "\n";*/
-  /*return out;*/
-  return title;
+  out.append(month);
+  out.append("\t");
+  out.append(to_string(year));
+  out.append("\t");
+  out.append(artist);
+  out.append("\t");
+  out.append(title);
+  out.append("\t");
+  out.append(recordLabel);
+  out.append("\t");
+  out.append(to_string(weeksAtNumberOne));
+  out.append("\n");
+  return out;
 }
 
 #endif // !NODE_H
