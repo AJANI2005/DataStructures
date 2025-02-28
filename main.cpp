@@ -231,9 +231,11 @@ void ProjectFrame::OnCreate_Queue(wxCommandEvent &event) {
   wxLogMessage("Queue Created");
   infile.close();
 }
+
 void ProjectFrame::OnDisplayAll_Queue(wxCommandEvent &event) {
+  string records = queue->displayAll();
   MainEditBox->Clear();
-  MainEditBox->AppendText(queue->displayAll());
+  MainEditBox->AppendText(wxString::FromUTF8(records));
 }
 
 void ProjectFrame::OnShowHead_Queue(wxCommandEvent &event) {}
