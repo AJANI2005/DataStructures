@@ -19,14 +19,28 @@ public:
   bool isEmpty() { return count == 0; }
   string displayAll();
   int size() { return count; }
-  Node *front() { return head; }
-  Node *back() { return tail; }
+  string front();
+  string back();
 };
 
 Stack::Stack() {
   head = tail = NULL;
   count = 0;
 }
+string Stack::front() {
+  if (head != NULL) {
+    return head->getRecord();
+  } else {
+    return "Stack is empty";
+  }
+};
+string Stack::back() {
+  if (tail != NULL) {
+    return tail->getRecord();
+  } else {
+    return "Stack is empty";
+  }
+};
 void Stack::push(Node node) {
   Node *newNode = new Node(node);
   if (isEmpty()) {
@@ -41,7 +55,7 @@ void Stack::push(Node node) {
 string Stack::pop() { // remove from head
   if (isEmpty()) {
     // case 1 : empty stack
-    return "Error: Attempt to removeFirst from empty stack";
+    return "Error: Attempt to pop from empty stack";
   } else if (head == tail) {
     // case 2 : one node in stack
     string record = head->getRecord();

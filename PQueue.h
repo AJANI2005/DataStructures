@@ -19,48 +19,64 @@ public:
   bool isEmpty() { return count == 0; }
   string displayAll();
   int size() { return count; }
-  Node *front() { return head; }
-  Node *back() { return tail; }
+  string front();
+  string back();
 };
 
 PQueue::PQueue() {
   head = tail = NULL;
   count = 0;
 }
+string PQueue::front() {
+  if (head != NULL) {
+    return head->getRecord();
+  } else {
+    return "Priority Queue is empty";
+  }
+}
+string PQueue::back() {
+  if (tail != NULL) {
+    return tail->getRecord();
+  } else {
+    return "Priority Queue is empty";
+  }
+}
 void PQueue::enqueue(Node node, int priority) {
-  Node *newNode = new Node(node);
-  newNode->setPriority(priority);
+  Node *newNode =
+      new Node(node); // Create a new node with the provided node data
+  newNode->setPriority(priority); // Set the priority of the new node
 
   if (isEmpty()) {
+    // If the queue is empty, newNode is both the head and tail
     head = tail = newNode;
   } else if (priority > head->getPriority()) {
+    // If the new node has higher priority than the head, insert at the front
     newNode->setNext(head);
     head = newNode;
-  } else if (priority < tail->getPriority()) {
-    // insert at tail
+  } else if (priority <= tail->getPriority()) {
+    // If the new node has lower priority than the tail, insert at the end
     tail->setNext(newNode);
     tail = newNode;
   } else {
-    // insert in middle
-    Node *node = head;
-    Node *next = node->getNext();
-    while (next != NULL && next->getPriority() >= priority) {
-      node = next;
-      next = node->getNext();
+    // Insert the node in the middle (sorted insert)
+    Node *current = head;
+    while (current->getNext() != NULL &&
+           current->getNext()->getPriority() >= priority) {
+      current = current->getNext();
     }
-    // insert
-    newNode->setNext(next);
-    node->setNext(newNode);
-    // tail = next ie. rhs
-    tail = next;
+
+    // Insert the new node after the current node
+    newNode->setNext(current->getNext());
+    current->setNext(newNode);
   }
+
   count += 1; // update count
 }
 
 string PQueue::dequeue() {
   if (isEmpty()) {
     // case 1 : empty queue
-    return "Error: Attempt to dequeue from empty queue";
+    return "Error: Attempt to dequeue from empty priority queue";
   } else if (head == tail) {
     // case 2 : one node in queue
     string record = head->getRecord();

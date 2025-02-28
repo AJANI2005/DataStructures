@@ -21,15 +21,30 @@ public:
   bool isEmpty() { return count == 0; }
   int size() { return count; }
   string displayAll();
-  Node *front() { return head; }
-  Node *back() { return tail; }
+  string front();
+  string back();
 };
 Deque::Deque() {
   head = tail = NULL;
   count = 0;
 }
+string Deque::front() {
+  if (head != NULL) {
+    return head->getRecord();
+  } else {
+    return "Deque is empty";
+  }
+};
+string Deque::back() {
+  if (tail != NULL) {
+    return tail->getRecord();
+  } else {
+    return "Deque is empty";
+  }
+};
 void Deque::insertFirst(Node node) {
   Node *newNode = new Node(node);
+
   if (isEmpty()) {
     head = tail = newNode;
   } else {
@@ -38,8 +53,10 @@ void Deque::insertFirst(Node node) {
   }
   count += 1;
 }
+
 void Deque::insertLast(Node node) {
   Node *newNode = new Node(node);
+
   if (isEmpty()) {
     head = tail = newNode;
   } else {
@@ -51,54 +68,50 @@ void Deque::insertLast(Node node) {
 
 string Deque::removeFirst() {
   if (isEmpty()) {
-    // case 1 : empty queue
-    return "Error: Attempt to removeFirst from empty queue";
+    return "Error: Attempt to removeFirst from empty deque";
   } else if (head == tail) {
-    // case 2 : one node in queue
     string record = head->getRecord();
     delete head;
     head = tail = NULL;
-    count -= 1; // update count
+    count -= 1;
     return record;
   } else {
-    // case 3 : more than one node in queue
     string record = head->getRecord();
     Node *temp = head;
     head = head->getNext();
     delete temp;
-    count -= 1; // update count
+    count -= 1;
     return record;
   }
 }
 
 string Deque::removeLast() {
   if (isEmpty()) {
-    // case 1 : empty queue
-    return "Error: Attempt to removeFirst from empty queue";
+    return "Error: Attempt to removeLast from empty deque";
   } else if (head == tail) {
-    // case 2 : one node in queue
     string record = head->getRecord();
     delete head;
     head = tail = NULL;
-    count -= 1; // update count
+    count -= 1;
     return record;
   } else {
-    // case 3 : more than one node in queue
     string record = tail->getRecord();
     Node *temp = tail;
-    // set new tail
+
+    // Find new tail
     Node *curr = head;
-    for (int i = 0; i < count; i++) {
-      if (curr->getNext() == tail) {
-        tail = curr;
-        break;
-      }
+    while (curr && curr->getNext() != tail) {
+      curr = curr->getNext();
     }
+    // Now curr is the previous node of tail
+    tail = curr;
+    tail->setNext(NULL);
     delete temp;
-    count -= 1; // update count
+    count -= 1;
     return record;
   }
 }
+
 string Deque::displayAll() {
   if (isEmpty()) {
     return "Empty Deque";
