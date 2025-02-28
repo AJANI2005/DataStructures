@@ -6,8 +6,7 @@
 #ifndef STACK_H
 #define STACK_H
 #include "Node.h"
-class Stack
-{
+class Stack {
 private:
   Node *head;
   Node *tail;
@@ -18,50 +17,39 @@ public:
   void push(Node node);
   string pop();
   bool isEmpty() { return count == 0; }
-  string toString();
+  string displayAll();
   int size() { return count; }
   Node *front() { return head; }
   Node *back() { return tail; }
 };
 
-Stack::Stack()
-{
+Stack::Stack() {
   head = tail = NULL;
   count = 0;
 }
-void Stack::push(Node node)
-{
+void Stack::push(Node node) {
   Node *newNode = new Node(node);
-  if (isEmpty())
-  {
+  if (isEmpty()) {
     head = tail = newNode;
-  }
-  else
-  {
+  } else {
     newNode->setNext(head);
     head = newNode;
   }
   count += 1;
 }
 
-string Stack::pop()
-{ // remove from head
-  if (isEmpty())
-  {
+string Stack::pop() { // remove from head
+  if (isEmpty()) {
     // case 1 : empty stack
     return "Error: Attempt to removeFirst from empty stack";
-  }
-  else if (head == tail)
-  {
+  } else if (head == tail) {
     // case 2 : one node in stack
     string record = head->getRecord();
     delete head;
     head = tail = NULL;
     count -= 1; // update count
     return record;
-  }
-  else
-  {
+  } else {
     // case 3 : more than one node in stack
     string record = head->getRecord();
     Node *temp = head;
@@ -72,16 +60,13 @@ string Stack::pop()
   }
 }
 
-string Stack::toString()
-{
-  if (isEmpty())
-  {
+string Stack::displayAll() {
+  if (isEmpty()) {
     return "Empty Stack";
   }
   Node *curr = head;
   string out = "";
-  while (curr != NULL)
-  {
+  while (curr != NULL) {
     out.append(curr->getRecord());
     out.append("\n");
     curr = curr->getNext();

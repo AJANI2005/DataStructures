@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/ajani/Desktop/DSA_Project1/main.cpp" "CMakeFiles/wxApp.dir/main.cpp.o" "gcc" "CMakeFiles/wxApp.dir/main.cpp.o.d"
+  "/home/ajani/DataStructures/main.cpp" "CMakeFiles/wxApp.dir/main.cpp.o" "gcc" "CMakeFiles/wxApp.dir/main.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

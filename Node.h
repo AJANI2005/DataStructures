@@ -9,8 +9,7 @@
 #include <iostream>
 #include <string>
 using namespace std;
-class Node
-{
+class Node {
 private:
   string month;
   int year;
@@ -44,9 +43,8 @@ public:
   void setPriority(int p) { priority = p; }
   void setNext(Node *nextNode) { next = nextNode; }
 };
-inline Node::Node(string monthName, int yearNum, string artistName,
-                  string songTitle, string labelName, int weeks)
-{
+Node::Node(string monthName, int yearNum, string artistName, string songTitle,
+           string labelName, int weeks) {
   month = monthName;
   year = yearNum;
   artist = artistName;
@@ -56,8 +54,7 @@ inline Node::Node(string monthName, int yearNum, string artistName,
   next = NULL;
   priority = 0;
 }
-inline string Node::getRecord()
-{
+string Node::getRecord() {
   string out = "";
   out.append(month);
   out.append("\t");

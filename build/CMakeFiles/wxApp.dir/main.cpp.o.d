@@ -1,7 +1,7 @@
-CMakeFiles/wxApp.dir/main.cpp.o: \
- /home/ajani/Desktop/DSA_Project1/main.cpp /usr/include/stdc-predef.h \
- /usr/include/wx-3.1/wx/wxprec.h /usr/include/wx-3.1/wx/defs.h \
- /usr/include/wx-3.1/wx/platform.h /usr/include/wx-3.1/wx/compiler.h \
+CMakeFiles/wxApp.dir/main.cpp.o: /home/ajani/DataStructures/main.cpp \
+ /usr/include/stdc-predef.h /usr/include/wx-3.1/wx/wxprec.h \
+ /usr/include/wx-3.1/wx/defs.h /usr/include/wx-3.1/wx/platform.h \
+ /usr/include/wx-3.1/wx/compiler.h \
  /usr/lib64/wx/include/gtk2-unicode-3.1/wx/setup.h \
  /usr/include/wx-3.1/wx/chkconf.h /usr/include/wx-3.1/wx/gtk/chkconf.h \
  /usr/include/wx-3.1/wx/unix/chkconf.h /usr/include/wx-3.1/wx/version.h \
@@ -309,9 +309,6 @@ CMakeFiles/wxApp.dir/main.cpp.o: \
  /usr/include/c++/7/fstream /usr/include/c++/7/bits/codecvt.h \
  /usr/include/c++/7/x86_64-suse-linux/bits/basic_file.h \
  /usr/include/c++/7/x86_64-suse-linux/bits/c++io.h \
- /usr/include/c++/7/bits/fstream.tcc \
- /home/ajani/Desktop/DSA_Project1/Deque.h \
- /home/ajani/Desktop/DSA_Project1/Node.h \
- /home/ajani/Desktop/DSA_Project1/PQueue.h \
- /home/ajani/Desktop/DSA_Project1/Queue.h \
- /home/ajani/Desktop/DSA_Project1/Stack.h
+ /usr/include/c++/7/bits/fstream.tcc /home/ajani/DataStructures/Deque.h \
+ /home/ajani/DataStructures/Node.h /home/ajani/DataStructures/PQueue.h \
+ /home/ajani/DataStructures/Queue.h /home/ajani/DataStructures/Stack.h

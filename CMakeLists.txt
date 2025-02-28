@@ -16,9 +16,6 @@ include_directories(${CMAKE_SOURCE_DIR})
 # Add executable
 add_executable(wxApp main.cpp)
 
-# Define UTF-8 support
-target_compile_definitions(wxApp PRIVATE wxUSE_UNICODE_UTF8=1)
-
 # Link wxWidgets libraries
 target_link_libraries(wxApp PRIVATE ${wxWidgets_LIBRARIES})
 

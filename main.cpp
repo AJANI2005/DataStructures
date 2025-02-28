@@ -40,8 +40,7 @@ Deque *deque = new Deque();
           the function to execute the program
 *************************************************************************************
 *************************************************************************************/
-class ProjectApp : public wxApp
-{
+class ProjectApp : public wxApp {
   virtual bool OnInit();
 };
 
@@ -51,8 +50,7 @@ class ProjectApp : public wxApp
            also will ALL the events handlers be declared
 *************************************************************************************
 *************************************************************************************/
-class ProjectFrame : public wxFrame
-{
+class ProjectFrame : public wxFrame {
 private:
   DECLARE_EVENT_TABLE() // To declare events items
 
@@ -110,8 +108,7 @@ public:
 DECLARE_APP(ProjectApp)   // Declare Application class
 IMPLEMENT_APP(ProjectApp) // Create Application class object
 
-enum
-{
+enum {
   // File menu items
   ID_OpenFile = wxID_HIGHEST + 1, // File menu item
   ID_Display,
@@ -193,10 +190,10 @@ END_EVENT_TABLE()
   Step 5.  Define the Application class function to initialize the application
 *************************************************************************************
 *************************************************************************************/
-bool ProjectApp::OnInit()
-{
+bool ProjectApp::OnInit() {
   // Create the main application window
-  ProjectFrame *frame = new ProjectFrame(wxT("COMP2611 - Data Structures"), wxPoint(50, 50), wxSize(840, 600));
+  ProjectFrame *frame = new ProjectFrame(wxT("COMP2611 - Data Structures"),
+                                         wxPoint(50, 50), wxSize(840, 600));
 
   // Display the window
   frame->Show(TRUE);
@@ -206,126 +203,85 @@ bool ProjectApp::OnInit()
   return TRUE;
 }
 
-void ProjectFrame::OnCreate_Queue(wxCommandEvent &event)
-{
-  ifstream infile("/home/ajani/Desktop/DSA_Project1/Catalog.txt");
-  if (!infile.is_open())
-  {
+void ProjectFrame::OnCreate_Queue(wxCommandEvent &event) {
+  ifstream infile(CurrentDocPath.mb_str());
+  if (!infile.is_open()) {
     wxLogMessage("Error: Could not open file");
     return;
   }
-  // Month*Year*Artist(s)*Single*Record-label*Weeks-at-number-one
   string month, artist, title, recordLabel, heading;
   int year, weeks;
   char asterisk;
-  getline(infile, heading, '\n');
+  getline(infile, heading);
 
-  while (!infile.eof())
-  {
-    getline(infile, month, '*');
+  while (getline(infile, month, '*')) {
     infile >> year;
     infile >> asterisk;
     getline(infile, artist, '*');
     getline(infile, title, '*');
     getline(infile, recordLabel, '*');
     infile >> weeks;
+
+    // Enqueue the data into the queue
     queue->enqueue(Node(month, year, artist, title, recordLabel, weeks));
+
+    // To handle the newline after each record
+    infile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
   }
   wxLogMessage("Queue Created");
   infile.close();
 }
-
-void ProjectFrame::OnDisplayAll_Queue(wxCommandEvent &event)
-{
-  wxString allRecords = queue->displayAll();
+void ProjectFrame::OnDisplayAll_Queue(wxCommandEvent &event) {
   MainEditBox->Clear();
-  MainEditBox->AppendText(wxString(allRecords));
+  MainEditBox->AppendText(queue->displayAll());
 }
 
-void ProjectFrame::OnShowHead_Queue(wxCommandEvent &event)
-{
-}
+void ProjectFrame::OnShowHead_Queue(wxCommandEvent &event) {}
 
-void ProjectFrame::OnShowTail_Queue(wxCommandEvent &event)
-{
-}
+void ProjectFrame::OnShowTail_Queue(wxCommandEvent &event) {}
 
-void ProjectFrame::OnDequeue_Queue(wxCommandEvent &event)
-{
-}
+void ProjectFrame::OnDequeue_Queue(wxCommandEvent &event) {}
 
-void ProjectFrame::OnCreate_Deque(wxCommandEvent &event)
-{
-}
+void ProjectFrame::OnCreate_Deque(wxCommandEvent &event) {}
 
-void ProjectFrame::OnDisplayAll_Deque(wxCommandEvent &event)
-{
-}
+void ProjectFrame::OnDisplayAll_Deque(wxCommandEvent &event) {}
 
-void ProjectFrame::OnShowHead_Deque(wxCommandEvent &event)
-{
-}
+void ProjectFrame::OnShowHead_Deque(wxCommandEvent &event) {}
 
-void ProjectFrame::OnShowTail_Deque(wxCommandEvent &event)
-{
-}
+void ProjectFrame::OnShowTail_Deque(wxCommandEvent &event) {}
 
-void ProjectFrame::OnDequeueHead_Deque(wxCommandEvent &event)
-{
-}
+void ProjectFrame::OnDequeueHead_Deque(wxCommandEvent &event) {}
 
-void ProjectFrame::OnDequeueTail_Deque(wxCommandEvent &event)
-{
-}
+void ProjectFrame::OnDequeueTail_Deque(wxCommandEvent &event) {}
 
-void ProjectFrame::OnCreate_PQueue(wxCommandEvent &event)
-{
-}
+void ProjectFrame::OnCreate_PQueue(wxCommandEvent &event) {}
 
-void ProjectFrame::OnDisplayAll_PQueue(wxCommandEvent &event)
-{
-}
+void ProjectFrame::OnDisplayAll_PQueue(wxCommandEvent &event) {}
 
-void ProjectFrame::OnShowHead_PQueue(wxCommandEvent &event)
-{
-}
+void ProjectFrame::OnShowHead_PQueue(wxCommandEvent &event) {}
 
-void ProjectFrame::OnShowTail_PQueue(wxCommandEvent &event)
-{
-}
+void ProjectFrame::OnShowTail_PQueue(wxCommandEvent &event) {}
 
-void ProjectFrame::OnDequeue_PQueue(wxCommandEvent &event)
-{
-}
+void ProjectFrame::OnDequeue_PQueue(wxCommandEvent &event) {}
 
-void ProjectFrame::OnCreate_Stack(wxCommandEvent &event)
-{
-}
+void ProjectFrame::OnCreate_Stack(wxCommandEvent &event) {}
 
-void ProjectFrame::OnPop_Stack(wxCommandEvent &event)
-{
-}
+void ProjectFrame::OnPop_Stack(wxCommandEvent &event) {}
 
-void ProjectFrame::OnDisplayAll_Stack(wxCommandEvent &event)
-{
-}
+void ProjectFrame::OnDisplayAll_Stack(wxCommandEvent &event) {}
 
-void ProjectFrame::OnShowHead_Stack(wxCommandEvent &event)
-{
-}
+void ProjectFrame::OnShowHead_Stack(wxCommandEvent &event) {}
 
-void ProjectFrame::OnShowTail_Stack(wxCommandEvent &event)
-{
-}
+void ProjectFrame::OnShowTail_Stack(wxCommandEvent &event) {}
 
 /************************************************************************************
 *************************************************************************************
   Step 6:   Define the Constructor functions for the Frame class
 *************************************************************************************
 *************************************************************************************/
-ProjectFrame::ProjectFrame(const wxString &title, const wxPoint &pos, const wxSize &size)
-    : wxFrame((wxFrame *)NULL, -1, title, pos, size)
-{
+ProjectFrame::ProjectFrame(const wxString &title, const wxPoint &pos,
+                           const wxSize &size)
+    : wxFrame((wxFrame *)NULL, -1, title, pos, size) {
   // Set the frame icon - optional
   /*SetIcon(wxIcon(wxT("Icon.xpm")));*/
 
@@ -348,30 +304,54 @@ ProjectFrame::ProjectFrame(const wxString &title, const wxPoint &pos, const wxSi
   wxMenu *menuStack = new wxMenu;
 
   // Append the menu items for the adts
-  menuQueue->Append(ID_Create_Queue, wxT("Create Queue"), wxT("Create a queue"));
-  menuQueue->Append(ID_DisplayAll_Queue, wxT("Display All"), wxT("Display all elements in the queue"));
-  menuQueue->Append(ID_ShowHead_Queue, wxT("Show Head"), wxT("Show the front element of the queue"));
-  menuQueue->Append(ID_ShowTail_Queue, wxT("Show Tail"), wxT("Show the rear element of the queue"));
-  menuQueue->Append(ID_Dequeue_Queue, wxT("Dequeue"), wxT("Remove the front element from the queue"));
+  menuQueue->Append(ID_Create_Queue, wxT("Create Queue"),
+                    wxT("Create a queue"));
+  menuQueue->Append(ID_DisplayAll_Queue, wxT("Display All"),
+                    wxT("Display all elements in the queue"));
+  menuQueue->Append(ID_ShowHead_Queue, wxT("Show Head"),
+                    wxT("Show the front element of the queue"));
+  menuQueue->Append(ID_ShowTail_Queue, wxT("Show Tail"),
+                    wxT("Show the rear element of the queue"));
+  menuQueue->Append(ID_Dequeue_Queue, wxT("Dequeue"),
+                    wxT("Remove the front element from the queue"));
 
-  menuDeque->Append(ID_Create_Deque, wxT("Create Deque"), wxT("Create a deque"));
-  menuDeque->Append(ID_DisplayAll_Deque, wxT("Display All"), wxT("Display all elements in the deque"));
-  menuDeque->Append(ID_ShowHead_Deque, wxT("Show Head"), wxT("Show the front element of the deque"));
-  menuDeque->Append(ID_ShowTail_Deque, wxT("Show Tail"), wxT("Show the rear element of the deque"));
-  menuDeque->Append(ID_DequeueHead_Deque, wxT("Dequeue Head"), wxT("Remove the front element from the deque"));
-  menuDeque->Append(ID_DequeueTail_Deque, wxT("Dequeue Tail"), wxT("Remove the rear element from the deque"));
+  menuDeque->Append(ID_Create_Deque, wxT("Create Deque"),
+                    wxT("Create a deque"));
+  menuDeque->Append(ID_DisplayAll_Deque, wxT("Display All"),
+                    wxT("Display all elements in the deque"));
+  menuDeque->Append(ID_ShowHead_Deque, wxT("Show Head"),
+                    wxT("Show the front element of the deque"));
+  menuDeque->Append(ID_ShowTail_Deque, wxT("Show Tail"),
+                    wxT("Show the rear element of the deque"));
+  menuDeque->Append(ID_DequeueHead_Deque, wxT("Dequeue Head"),
+                    wxT("Remove the front element from the deque"));
+  menuDeque->Append(ID_DequeueTail_Deque, wxT("Dequeue Tail"),
+                    wxT("Remove the rear element from the deque"));
 
-  menuPQueue->Append(ID_Create_PQueue, wxT("Create PQ"), wxT("Create a priority queue"));
-  menuPQueue->Append(ID_DisplayAll_PQueue, wxT("Display All"), wxT("Display all elements in the priority queue"));
-  menuPQueue->Append(ID_ShowHead_PQueue, wxT("Show Head"), wxT("Show the highest-priority element in the priority queue"));
-  menuPQueue->Append(ID_ShowTail_PQueue, wxT("Show Tail"), wxT("Show the lowest-priority element in the priority queue"));
-  menuPQueue->Append(ID_Dequeue_PQueue, wxT("Dequeue"), wxT("Remove the highest-priority element from the priority queue"));
+  menuPQueue->Append(ID_Create_PQueue, wxT("Create PQ"),
+                     wxT("Create a priority queue"));
+  menuPQueue->Append(ID_DisplayAll_PQueue, wxT("Display All"),
+                     wxT("Display all elements in the priority queue"));
+  menuPQueue->Append(
+      ID_ShowHead_PQueue, wxT("Show Head"),
+      wxT("Show the highest-priority element in the priority queue"));
+  menuPQueue->Append(
+      ID_ShowTail_PQueue, wxT("Show Tail"),
+      wxT("Show the lowest-priority element in the priority queue"));
+  menuPQueue->Append(
+      ID_Dequeue_PQueue, wxT("Dequeue"),
+      wxT("Remove the highest-priority element from the priority queue"));
 
-  menuStack->Append(ID_Create_Stack, wxT("Create Stack"), wxT("Create a stack"));
-  menuStack->Append(ID_Pop_Stack, wxT("Pop"), wxT("Remove and display the top element from the stack"));
-  menuStack->Append(ID_DisplayAll_Stack, wxT("Display All"), wxT("Display all elements in the stack"));
-  menuStack->Append(ID_ShowHead_Stack, wxT("Show Head"), wxT("Show the top element of the stack"));
-  menuStack->Append(ID_ShowTail_Stack, wxT("Show Tail"), wxT("Show the bottom element of the stack"));
+  menuStack->Append(ID_Create_Stack, wxT("Create Stack"),
+                    wxT("Create a stack"));
+  menuStack->Append(ID_Pop_Stack, wxT("Pop"),
+                    wxT("Remove and display the top element from the stack"));
+  menuStack->Append(ID_DisplayAll_Stack, wxT("Display All"),
+                    wxT("Display all elements in the stack"));
+  menuStack->Append(ID_ShowHead_Stack, wxT("Show Head"),
+                    wxT("Show the top element of the stack"));
+  menuStack->Append(ID_ShowTail_Stack, wxT("Show Tail"),
+                    wxT("Show the bottom element of the stack"));
 
   // Append the main menu items to the Menu Bar
   menuBar->Append(menuFile, wxT("File"));
@@ -385,10 +365,13 @@ ProjectFrame::ProjectFrame(const wxString &title, const wxPoint &pos, const wxSi
   menuBar->Append(menuHelp, wxT("Help"));
   // Create sub menus for adts
   // Append the sub-menu items to the File Main Menu item
-  menuFile->Append(ID_OpenFile, wxT("&Open File..."), wxT("Open an Existing file"));
-  menuFile->Append(ID_Display, wxT("&Display File..."), wxT("Display contents of opened file"));
+  menuFile->Append(ID_OpenFile, wxT("&Open File..."),
+                   wxT("Open an Existing file"));
+  menuFile->Append(ID_Display, wxT("&Display File..."),
+                   wxT("Display contents of opened file"));
   menuFile->Append(ID_Save, wxT("&Save"), wxT("Save opened file"));
-  menuFile->Append(ID_SaveAs, wxT("Save &As..."), wxT("Save display as a new file"));
+  menuFile->Append(ID_SaveAs, wxT("Save &As..."),
+                   wxT("Save display as a new file"));
   menuFile->Append(ID_Exit, wxT("E&xit"), wxT("Close and EXIT Program"));
 
   // Append the sub-menu items to the Help Main Menu item
@@ -418,18 +401,24 @@ ProjectFrame::ProjectFrame(const wxString &title, const wxPoint &pos, const wxSi
   //=========================================================================================
 
   wxPanel *panel = new wxPanel(this, -1);
-  wxBoxSizer *vbox = new wxBoxSizer(wxVERTICAL);    // Vertical sizer for main window
-  wxBoxSizer *hbox1 = new wxBoxSizer(wxHORIZONTAL); // Horizontal sizer for main window
+  wxBoxSizer *vbox =
+      new wxBoxSizer(wxVERTICAL); // Vertical sizer for main window
+  wxBoxSizer *hbox1 =
+      new wxBoxSizer(wxHORIZONTAL); // Horizontal sizer for main window
 
   // Add two textboxes to the panel for data display
-  wxBoxSizer *hbox2 = new wxBoxSizer(wxHORIZONTAL); // Horizontal sizer for filename window
-  wxBoxSizer *hbox3 = new wxBoxSizer(wxHORIZONTAL); // Horizontal sizer for display window
+  wxBoxSizer *hbox2 =
+      new wxBoxSizer(wxHORIZONTAL); // Horizontal sizer for filename window
+  wxBoxSizer *hbox3 =
+      new wxBoxSizer(wxHORIZONTAL); // Horizontal sizer for display window
 
   wxStaticText *fileLabel = new wxStaticText(panel, wxID_ANY, wxT("File Name"));
-  wxStaticText *displayLabel = new wxStaticText(panel, wxID_ANY, wxT("Display"));
+  wxStaticText *displayLabel =
+      new wxStaticText(panel, wxID_ANY, wxT("Display"));
 
   // Initialize the filename textbox window
-  filenameTextBox = new wxTextCtrl(panel, wxID_ANY, wxT("No File Opened Yet..."));
+  filenameTextBox =
+      new wxTextCtrl(panel, wxID_ANY, wxT("No File Opened Yet..."));
 
   // Initialize the display window
   MainEditBox = new wxTextCtrl(panel, wxID_ANY, wxT("No Data Available Yet..."),
@@ -466,8 +455,7 @@ ProjectFrame::ProjectFrame(const wxString &title, const wxPoint &pos, const wxSi
 //=====================================
 //===================================================================================
 
-void ProjectFrame::OnOpenFile(wxCommandEvent &event)
-{
+void ProjectFrame::OnOpenFile(wxCommandEvent &event) {
   // Creates a "open file" dialog with 3 file types
   wxFileDialog *OpenDialog = new wxFileDialog(
       this, (wxT("Choose a file to open")), wxEmptyString, wxEmptyString,
@@ -492,14 +480,12 @@ void ProjectFrame::OnOpenFile(wxCommandEvent &event)
   }
 }
 
-void ProjectFrame::OnSave(wxCommandEvent &event)
-{
+void ProjectFrame::OnSave(wxCommandEvent &event) {
   // Save to the already-set path for the document
   MainEditBox->SaveFile(CurrentDocPath);
 }
 
-void ProjectFrame::OnSaveAs(wxCommandEvent &event)
-{
+void ProjectFrame::OnSaveAs(wxCommandEvent &event) {
   wxFileDialog *SaveDialog = new wxFileDialog(
       this, (wxT("Save File As...?")), wxEmptyString, wxEmptyString,
       (wxT("Data Files (*.dat)|*.dat|Text files (*.txt)|*.txt|")),
@@ -519,8 +505,7 @@ void ProjectFrame::OnSaveAs(wxCommandEvent &event)
   }
 }
 
-void ProjectFrame::OnDisplay(wxCommandEvent &event)
-{
+void ProjectFrame::OnDisplay(wxCommandEvent &event) {
   // Creates a "open file" dialog with 4 file types
   wxFileDialog *OpenDialog = new wxFileDialog(
       this, (wxT("Choose a file to open")), wxEmptyString, wxEmptyString,
@@ -533,14 +518,12 @@ void ProjectFrame::OnDisplay(wxCommandEvent &event)
   MainEditBox->LoadFile(CurrentDocPath);
 }
 
-void ProjectFrame::OnExit(wxCommandEvent &event)
-{
+void ProjectFrame::OnExit(wxCommandEvent &event) {
   wxMessageBox(wxT("Good-bye!"), wxT("Exit"), wxOK | wxICON_INFORMATION, this);
   Close(TRUE); // Close the window
 }
 
-void ProjectFrame::OnAbout(wxCommandEvent &event)
-{
+void ProjectFrame::OnAbout(wxCommandEvent &event) {
   wxMessageBox(wxT("   Data Structures\n wxWidgets Exercise\n\tVersion 1.0"),
                wxT("About..."), wxOK | wxICON_INFORMATION, this);
 }

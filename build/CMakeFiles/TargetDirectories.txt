@@ -1,3 +1,3 @@
-/home/ajani/Desktop/DSA_Project1/build/CMakeFiles/wxApp.dir
-/home/ajani/Desktop/DSA_Project1/build/CMakeFiles/edit_cache.dir
-/home/ajani/Desktop/DSA_Project1/build/CMakeFiles/rebuild_cache.dir
+/home/ajani/DataStructures/build/CMakeFiles/wxApp.dir
+/home/ajani/DataStructures/build/CMakeFiles/edit_cache.dir
+/home/ajani/DataStructures/build/CMakeFiles/rebuild_cache.dir
