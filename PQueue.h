@@ -1,7 +1,14 @@
-// Name: Ajani Small
-// ID: 400017967
-// Date: 2/26/2025
-// Description: Priority PQueue class for a node (PPQueue.h)
+/* Author   :   Ajani Small
+ * DATE     :   26 February, 2025
+ *
+ * Purpose:
+ *
+ * This class implements a priority queue structure.
+ * In particular, it provides operations for enqueueing elements with
+ * priority, dequeueing highest priority elements, and displaying all
+ * elements in sorted priority order.
+ *
+ */
 
 #ifndef PQUEUE_H
 #define PQUEUE_H
@@ -13,13 +20,53 @@ private:
   int count;
 
 public:
+  /**
+   * @brief Constructs an empty priority queue
+   * Initializes head and tail pointers to NULL and count to 0
+   */
   PQueue();
+
+  /**
+   * @brief Adds a new node with given priority
+   * @param node The node to be added
+   * @param priority Priority value for ordering
+   */
   void enqueue(Node node, int priority);
+
+  /**
+   * @brief Removes and returns highest priority node
+   * @return String representation of removed node or error message if empty
+   */
   string dequeue();
+
+  /**
+   * @brief Checks if priority queue is empty
+   * @return true if queue is empty, false otherwise
+   */
   bool isEmpty() { return count == 0; }
+
+  /**
+   * @brief Returns string representation of all nodes
+   * @return String containing all nodes in priority order or "Empty Priority Queue" if empty
+   */
   string displayAll();
+
+  /**
+   * @brief Returns current size of priority queue
+   * @return Number of nodes in queue
+   */
   int size() { return count; }
+
+  /**
+   * @brief Returns highest priority node without removing it
+   * @return String representation of highest priority node or error message if empty
+   */
   string front();
+
+  /**
+   * @brief Returns bottom node without removing it
+   * @return String representation of bottom node or error message if empty
+   */
   string back();
 };
 
@@ -42,35 +89,33 @@ string PQueue::back() {
   }
 }
 void PQueue::enqueue(Node node, int priority) {
-  Node *newNode =
-      new Node(node); // Create a new node with the provided node data
-  newNode->setPriority(priority); // Set the priority of the new node
+  // Create and initialize new node
+  Node *newNode = new Node(node);
+  newNode->setPriority(priority);
 
   if (isEmpty()) {
-    // If the queue is empty, newNode is both the head and tail
+    // First node - set both head and tail
     head = tail = newNode;
   } else if (priority > head->getPriority()) {
-    // If the new node has higher priority than the head, insert at the front
+    // New highest priority - insert at front
     newNode->setNext(head);
     head = newNode;
   } else if (priority <= tail->getPriority()) {
-    // If the new node has lower priority than the tail, insert at the end
+    // New lowest priority - insert at end
     tail->setNext(newNode);
     tail = newNode;
   } else {
-    // Insert the node in the middle (sorted insert)
+    // Insert in middle based on priority
     Node *current = head;
     while (current->getNext() != NULL &&
            current->getNext()->getPriority() >= priority) {
       current = current->getNext();
     }
-
-    // Insert the new node after the current node
+    // Insert after current node
     newNode->setNext(current->getNext());
     current->setNext(newNode);
   }
-
-  count += 1; // update count
+  count += 1;
 }
 
 string PQueue::dequeue() {

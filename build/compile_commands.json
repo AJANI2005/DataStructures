@@ -1,8 +1,8 @@
 [
 {
-  "directory": "/home/ajani/DataStructures/build",
-  "command": "/usr/bin/c++ -DWXUSINGDLL -D_FILE_OFFSET_BITS=64 -D__WXGTK__ -I/home/ajani/DataStructures -isystem /usr/lib64/wx/include/gtk2-unicode-3.1 -isystem /usr/include/wx-3.1  -pthread -o CMakeFiles/wxApp.dir/main.cpp.o -c /home/ajani/DataStructures/main.cpp",
-  "file": "/home/ajani/DataStructures/main.cpp",
+  "directory": "/home/ajani/Desktop/DataStructures/build",
+  "command": "/usr/bin/g++ -DWXUSINGDLL -D_FILE_OFFSET_BITS=64 -D__WXGTK__ -I/home/ajani/Desktop/DataStructures -isystem /nix/store/32f3kal0xa04y1b67znqdizv06hp82d7-wxwidgets-3.2.6/lib/wx/include/gtk3-unicode-3.2 -isystem /nix/store/32f3kal0xa04y1b67znqdizv06hp82d7-wxwidgets-3.2.6/include/wx-3.2  -pthread -g -o CMakeFiles/wxApp.dir/main.cpp.o -c /home/ajani/Desktop/DataStructures/main.cpp",
+  "file": "/home/ajani/Desktop/DataStructures/main.cpp",
   "output": "CMakeFiles/wxApp.dir/main.cpp.o"
 }
 ]

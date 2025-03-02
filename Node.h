@@ -1,7 +1,14 @@
-// Name: Ajani Small
-// ID: 400017967
-// Date: 2/26/2025
-// Description: Node class for a Song
+/* Author   :   Ajani Small
+ * ID       :   400017967
+ * DATE     :   26 February, 2025
+ *
+ * Purpose:
+ *
+ * This class represents a song record data structure.
+ * In particular, it stores song information including month, year,
+ * artist, title, record label, and weeks at #1 position.
+ *
+ */
 
 #ifndef NODE_H
 #define NODE_H
@@ -11,6 +18,7 @@
 using namespace std;
 class Node {
 private:
+  // member variables
   string month;
   int year;
   string artist;
@@ -24,6 +32,7 @@ public:
   Node(string monthName, int yearNum, string artistName, string songTitle,
        string labelName, int weeks);
 
+  // accessor functions
   string getMonth() { return month; }
   int getYear() { return year; }
   string getArtist() { return artist; }
@@ -34,6 +43,7 @@ public:
   int getPriority() { return priority; }
   string getRecord();
 
+  // mutator functions
   void setMonth(string monthName) { month = monthName; }
   void setYear(int yearNum) { year = yearNum; }
   void setArtist(string artistName) { artist = artistName; }
@@ -43,6 +53,8 @@ public:
   void setPriority(int p) { priority = p; }
   void setNext(Node *nextNode) { next = nextNode; }
 };
+
+// Node Constructor - constructs an object of the Node class
 Node::Node(string monthName, int yearNum, string artistName, string songTitle,
            string labelName, int weeks) {
   month = monthName;
@@ -54,6 +66,8 @@ Node::Node(string monthName, int yearNum, string artistName, string songTitle,
   next = NULL;
   priority = 0;
 }
+
+// This function returns a string representation of the Node class
 string Node::getRecord() {
   string out = "";
   out.append(month);

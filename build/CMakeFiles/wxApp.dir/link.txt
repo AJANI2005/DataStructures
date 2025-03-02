@@ -1,1 +1,1 @@
-/usr/bin/c++  -pthread CMakeFiles/wxApp.dir/main.cpp.o -o wxApp  -L/usr/lib64 -pthread -lwx_gtk2u_core-3.1 -lwx_baseu-3.1 
+/usr/bin/g++  -pthread -g -Wl,--dependency-file=CMakeFiles/wxApp.dir/link.d CMakeFiles/wxApp.dir/main.cpp.o -o wxApp   -L/nix/store/32f3kal0xa04y1b67znqdizv06hp82d7-wxwidgets-3.2.6/lib  -Wl,-rpath,/nix/store/32f3kal0xa04y1b67znqdizv06hp82d7-wxwidgets-3.2.6/lib -L/nix/store/32f3kal0xa04y1b67znqdizv06hp82d7-wxwidgets-3.2.6/lib -pthread -lwx_gtk3u_core-3.2 -lwx_baseu-3.2

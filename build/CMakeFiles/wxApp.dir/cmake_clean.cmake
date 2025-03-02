@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/wxApp.dir/link.d"
   "CMakeFiles/wxApp.dir/main.cpp.o"
   "CMakeFiles/wxApp.dir/main.cpp.o.d"
   "wxApp"
